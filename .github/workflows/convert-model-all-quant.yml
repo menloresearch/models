@@ -84,7 +84,12 @@ jobs:
           timeout_minutes: 10
           max_attempts: 5
           command: HF_HUB_ETAG_TIMEOUT=500 huggingface-cli download --repo-type model --local-dir /mnt/models/${{ env.MODEL_NAME }}/hf --cache-dir /mnt/models/.cache --token ${{ secrets.HUGGINGFACE_TOKEN_READ }} ${{ env.SOURCE_MODEL_ID }}
-
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev
+          
       - name: Build lib for quantize
         run: |
           cmake -B build
